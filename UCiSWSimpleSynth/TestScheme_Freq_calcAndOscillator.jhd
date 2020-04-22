@@ -1,0 +1,9 @@
+MODULE TestScheme_Freq_calcAndOscillator
+	SUBMODULE Oscillator
+		INSTANCE XLXI_2
+	SUBMODULE Freq_calc
+		INSTANCE XLXI_5
+	SUBMODULE Env_gen
+		INSTANCE XLXI_8
+	SUBMODULE Multiplier
+		INSTANCE XLXI_9
