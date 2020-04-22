@@ -219,3 +219,4 @@ cython_debug/
 
 UCiSWSimpleSynth/sch2HdlBatchFile
 *.wdb
+output_results.txt
