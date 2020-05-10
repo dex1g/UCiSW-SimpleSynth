@@ -1,18 +1,27 @@
-from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.ticker as ticker
+import csv
 
 
 def to_hex(x, pos):
+    """ Used to display signal values in hex on plot"""
     return "%x" % int(x)
 
 
+time_list, value_list = [], []
+
 with open("output_results.txt") as f:
-    content = f.readlines()
-values: List[int] = [int(x.strip(), 2) for x in content]
-x = np.arange(start=0, stop=500, step=0.01)
-y = np.array(values)
+    for value, time in csv.reader(f, delimiter=","):
+        # time in file is stored in nanoseconds as 30035 ns so strip
+        # the suffix and convert to ms
+        time_in_ms = int(time[:-3]) * 1e-6
+        time_list.append(time_in_ms)
+        # values are stored in normal binary
+        value_list.append(int(value.strip(), 2))
+
+x = np.array(time_list)
+y = np.array(value_list)
 plt.plot(x, y, drawstyle="steps-mid")
 ax = plt.gca()
 fmt = ticker.FuncFormatter(to_hex)
@@ -21,6 +30,4 @@ ax.yaxis.set_major_formatter(fmt)
 ax.set_xlabel("T(ms)")
 ax.set_ylabel("Output signal")
 ax.set_title("Basic wave")
-# ax.set_ylim([0, 4000])
-# ax.set_xlim([60, 70])
 plt.show()
