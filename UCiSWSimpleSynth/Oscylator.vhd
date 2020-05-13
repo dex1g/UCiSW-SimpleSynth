@@ -21,17 +21,34 @@ begin
 
    process(Clk, Freq)
    begin
-      Start <= '0';
-      if Enabled = '1' and Freq /= X"000" and rising_edge(Clk) then
-         count <= count + 1;
+      if rising_edge(Clk) and Enabled = '1' and Freq /= X"000" then
          if STD_LOGIC_VECTOR(count) >= Freq then
             count <= X"000";
-            sample <= sample + 1;
-            Start <= '1';
+			else
+				count <= count + 1;
          end if;
       end if;
-		
    end process;
+	
+	process(Clk, count)
+	begin
+		if rising_edge(Clk) and Enabled = '1' and Freq /= X"000" then
+			if STD_LOGIC_VECTOR(count) >= Freq then
+				Start <= '1';
+			else
+				Start <= '0';
+			end if;
+		end if;
+	end process;
+	
+	process(Clk, count)
+	begin
+		if rising_edge(Clk) and Enabled = '1' and Freq /= X"000" then
+			if STD_LOGIC_VECTOR(count) >= Freq then
+				sample <= sample + 1;
+			end if;
+		end if;
+   end process;	
 
    Data <= STD_LOGIC_VECTOR(sample)&"0000000";
    Cmd <= "0011";

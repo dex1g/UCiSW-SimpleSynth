@@ -39,60 +39,75 @@ begin
 		end if;
    end process clk_proc;
 
-	state_proc : process( Key_Pressed, Att_Val, Rel_Val, Clk )
+	state_proc : process( state, Key_Pressed, Att_Val, Rel_Val, output )
    begin
 		next_state <= state;
 		
 		if state = Silence and Key_Pressed = '1' then
 			next_state <= Attack;
-			count <= UNSIGNED(Att_Val);
-			output <= X"00";
 			
 		elsif state = Attack then
 			if Key_Pressed = '0' then
-				count <= UNSIGNED(Rel_Val);
 				next_state <= Release;
 			elsif output >= OUTPUT_MAX then
 				next_state <= Sustain;
 			end if;
 			
 		elsif state = Sustain and Key_Pressed = '0' then
-			count <= unsigned(Rel_Val);
-			output <= OUTPUT_MAX;
 			next_state <= Release;
 			
 		elsif state = Release then
 			if Key_Pressed = '1' then
-				count <= UNSIGNED(Att_Val);
 				next_state <= Attack;
 			elsif output = X"00" then
 				next_state <= Silence;
 			end if;
 		end if;
-		
-		if falling_edge( Clk ) then
-			if state = Attack and output <= OUTPUT_MAX then
-				if count = COUNT_ZERO then
-					count <= UNSIGNED(Att_Val);
-					output <= output + 1;
-				else
-					count <= count - 1;
-				end if;
-			elsif state = Release and output > X"00" then
-				if count = COUNT_ZERO then
+   end process state_proc;
+	
+	counter_proc : process( Clk, next_state )
+   begin
+		if rising_edge(Clk) then
+			if state = Silence and next_state = Attack then
+				count <= UNSIGNED(Att_Val);
+			elsif state = Attack then
+				if next_state = Release then
 					count <= UNSIGNED(Rel_Val);
-					output <= output - 1;
+				elsif output <= OUTPUT_MAX then
+					if count = COUNT_ZERO then
+						count <= UNSIGNED(Att_Val);
+					else
+						count <= count - 1;
+					end if;
+				end if;
+			elsif state = Sustain and next_state = Release then
+				count <= unsigned(Rel_Val);
+			elsif state = Release and output > X"00" then
+				if next_state = Attack then
+					count <= UNSIGNED(Att_Val);
+				elsif count = COUNT_ZERO then
+					count <= UNSIGNED(Rel_Val);
 				else
 					count <= count - 1;
 				end if;
 			end if;
 		end if;
-   end process state_proc;
+   end process counter_proc;
 	
-	--counter_proc : process( Clk )
-   --begin
-	
-   --end process counter_proc;
+	output_proc : process( Clk, count )
+	begin
+		if rising_edge(Clk) then
+			if state = Silence and next_state = Attack then
+				output <= X"00";
+			elsif state = Attack and output <= OUTPUT_MAX and count = COUNT_ZERO then
+				output <= output + 1;
+			elsif state = Sustain and next_state = Release then
+				output <= OUTPUT_MAX;
+			elsif state = Release and output > X"00" and count = COUNT_ZERO then
+				output <= output - 1;
+			end if;
+		end if;
+	end process output_proc;
 
    Factor <= STD_LOGIC_VECTOR(output);
 	

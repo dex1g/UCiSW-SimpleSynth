@@ -18,16 +18,8 @@ begin
 
 	result <= UNSIGNED(Data(11 downto 7)) * UNSIGNED(Ratio);
 	
-	process(Enable, result)
-	begin
-	
-		if Enable = '1' then
-			DO <= STD_LOGIC_VECTOR(result(11 downto 0));
-		else
-			DO <= Data;
-		end if;
-		
-	end process;
+	DO <= STD_LOGIC_VECTOR(result(11 downto 0)) when Enable = '1' else
+			Data;
 	
 end Behavioral;
 

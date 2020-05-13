@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="Module_Generation">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2020-4-17T8:22:12</timestamp>
+    <timestamp>2020-5-13T22:36:55</timestamp>
     <pin polarity="Input" x="0" y="-416" name="DI(7:0)" />
     <pin polarity="Input" x="0" y="-352" name="DI_Rdy" />
     <pin polarity="Input" x="0" y="-288" name="F0" />

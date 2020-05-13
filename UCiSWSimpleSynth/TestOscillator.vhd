@@ -15,6 +15,7 @@ ARCHITECTURE behavior OF TestOscillator IS
     COMPONENT Oscillator
     PORT(
          Freq : IN  std_logic_vector(11 downto 0);
+			Enabled : in  STD_LOGIC;
          Clk : IN  std_logic;
          Data : OUT  std_logic_vector(11 downto 0);
          Cmd : OUT  std_logic_vector(3 downto 0);
@@ -27,6 +28,7 @@ ARCHITECTURE behavior OF TestOscillator IS
 
    --Inputs
    signal Freq : std_logic_vector(11 downto 0) := (others => '0');
+   signal Enabled : std_logic := '1';
    signal Clk : std_logic := '0';
 
  	--Outputs
@@ -52,6 +54,7 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: Oscillator PORT MAP (
           Freq => Freq,
+          Enabled => Enabled,
           Clk => Clk,
           Data => Data,
           Cmd => Cmd,

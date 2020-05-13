@@ -20,24 +20,22 @@ architecture Behavioral of Freq_calc is
 
 begin
 	
-	process1 : process( Clk )
+	clk_proc : process( Clk )
    begin
-         if rising_edge( Clk ) then
-            if Reset = '1' then
-               state <= None;
-            else
-               state <= next_state;
-            end if;
-         end if;
-   end process process1;
+		if rising_edge( Clk ) then
+			if Reset = '1' then
+				state <= None;
+			else
+				state <= next_state;
+			end if;
+		end if;
+   end process clk_proc;
 	
-	process2 : process(DO, F0, DO_Rdy, state)
+	state_proc : process( state, DO, F0, DO_Rdy )
 	begin
 		next_state <= state;
-	
-		if DO_Rdy = '1' and F0 = '0' then
-			key_state <= '1';
 		
+		if DO_Rdy = '1' and F0 = '0' then
 			case DO is
 				when X"15" => 
 					next_state <= C1;
@@ -73,18 +71,40 @@ begin
 					next_state <= Dis2;
 				when X"4D" => 
 					next_state <= E2;
-				when others => 
-					--next_state <= None;
-					key_state <= '0';
+				when others =>
+					next_state <= state;
 			end case;
-			
-		elsif DO_Rdy = '1' and F0 = '1' then
-		
-			key_state <= '0';
-			
 		end if;
-		
-	end process;
+	end process state_proc;
+	
+	keystate_proc : process( Clk, DO_Rdy, F0, DO, state ) 
+	begin
+		if rising_edge(Clk) then
+			if DO_Rdy = '1' and F0 = '0' then
+				key_state <= '1';
+			elsif DO_Rdy = '1' and F0 = '1' then
+				if (state = C1 and DO = X"15") 
+				or (state = Cis1 and DO = X"1E")
+				or (state = D1 and DO = X"1D")
+				or (state = Dis1 and DO = X"26")
+				or (state = E1 and DO = X"24")
+				or (state = F1 and DO = X"2D")
+				or (state = Fis1 and DO = X"2E")
+				or (state = G1 and DO = X"2C")
+				or (state = Gis1 and DO = X"36")
+				or (state = A1 and DO = X"35")
+				or (state = Ais1 and DO = X"3D")
+				or (state = B1 and DO = X"3C")
+				or (state = C2 and DO = X"43")
+				or (state = Cis2 and DO = X"46")
+				or (state = D2 and DO = X"44")
+				or (state = Dis2 and DO = X"45")
+				or (state = E2 and DO = X"4D") then
+					key_state <= '0';
+				end if;
+			end if;
+		end if;
+	end process keystate_proc;
 	
 	with state select
       Freq <= X"BBA" when C1,
@@ -106,9 +126,6 @@ begin
               X"4A1" when E2,
               X"000" when others;
 				  
-	--with state select
-	--	Key_Pressed <= '0' when None,
-	--						'1' when others;
 	Key_Pressed <= key_state;
 
 end Behavioral;

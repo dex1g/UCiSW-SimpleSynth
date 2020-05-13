@@ -35,7 +35,7 @@
         <port polarity="Output" name="DO(11:0)" />
         <port polarity="Input" name="Reset" />
         <blockdef name="Freq_calc">
-            <timestamp>2020-4-17T8:20:17</timestamp>
+            <timestamp>2020-5-13T22:36:40</timestamp>
             <line x2="384" y1="160" y2="160" x1="320" />
             <line x2="0" y1="32" y2="32" x1="64" />
             <line x2="0" y1="96" y2="96" x1="64" />
@@ -48,7 +48,7 @@
             <rect width="256" x="64" y="-192" height="384" />
         </blockdef>
         <blockdef name="Oscillator">
-            <timestamp>2020-4-17T7:1:32</timestamp>
+            <timestamp>2020-5-10T19:36:10</timestamp>
             <line x2="0" y1="96" y2="96" x1="64" />
             <rect width="64" x="0" y="20" height="24" />
             <line x2="0" y1="32" y2="32" x1="64" />
@@ -63,7 +63,7 @@
             <rect width="256" x="64" y="-256" height="384" />
         </blockdef>
         <blockdef name="Env_gen">
-            <timestamp>2020-4-17T6:50:59</timestamp>
+            <timestamp>2020-5-12T20:6:43</timestamp>
             <line x2="0" y1="32" y2="32" x1="64" />
             <rect width="64" x="0" y="84" height="24" />
             <line x2="0" y1="96" y2="96" x1="64" />
@@ -78,7 +78,7 @@
             <rect width="256" x="64" y="-256" height="448" />
         </blockdef>
         <blockdef name="Multiplier">
-            <timestamp>2020-4-17T6:51:9</timestamp>
+            <timestamp>2020-5-13T21:9:24</timestamp>
             <rect width="256" x="64" y="-192" height="192" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
             <rect width="64" x="0" y="-108" height="24" />
@@ -98,23 +98,23 @@
             <blockpin signalname="XLXN_1(11:0)" name="Freq(11:0)" />
         </block>
         <block symbolname="Oscillator" name="XLXI_2">
+            <blockpin signalname="XLXN_7" name="Enabled" />
             <blockpin signalname="Clk" name="Clk" />
             <blockpin signalname="XLXN_1(11:0)" name="Freq(11:0)" />
             <blockpin signalname="DO_Rdy" name="Start" />
             <blockpin signalname="XLXN_36(11:0)" name="Data(11:0)" />
             <blockpin signalname="Cmd(3:0)" name="Cmd(3:0)" />
             <blockpin signalname="Addr(3:0)" name="Addr(3:0)" />
-            <blockpin signalname="XLXN_7" name="Enabled" />
         </block>
         <block symbolname="Env_gen" name="XLXI_8">
             <blockpin signalname="XLXN_16" name="Key_Pressed" />
+            <blockpin signalname="Reset" name="Reset" />
             <blockpin signalname="Clk" name="Clk" />
+            <blockpin signalname="Att_Val(17:0)" name="Att_Val(17:0)" />
+            <blockpin signalname="Rel_Val(17:0)" name="Rel_Val(17:0)" />
             <blockpin signalname="XLXN_7" name="Play" />
             <blockpin signalname="XLXN_35" name="Env_On" />
             <blockpin signalname="XLXN_34(7:0)" name="Factor(7:0)" />
-            <blockpin signalname="Reset" name="Reset" />
-            <blockpin signalname="Att_Val(17:0)" name="Att_Val(17:0)" />
-            <blockpin signalname="Rel_Val(17:0)" name="Rel_Val(17:0)" />
         </block>
         <block symbolname="Multiplier" name="XLXI_9">
             <blockpin signalname="XLXN_35" name="Enable" />

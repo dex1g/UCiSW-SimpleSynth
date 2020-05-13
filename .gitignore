@@ -220,3 +220,6 @@ cython_debug/
 UCiSWSimpleSynth/sch2HdlBatchFile
 *.wdb
 output_results.txt
+UCiSWSimpleSynth/fuseRelaunch.cmd
+scripts/signal.wav
+UCiSWSimpleSynth/fuse.xmsgs

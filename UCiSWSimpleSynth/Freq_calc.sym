@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="Freq_calc">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2020-4-17T8:20:17</timestamp>
+    <timestamp>2020-5-13T22:36:40</timestamp>
     <pin polarity="Input" x="0" y="-160" name="F0" />
     <pin polarity="Input" x="0" y="-96" name="DO_Rdy" />
     <pin polarity="Input" x="0" y="32" name="Clk" />

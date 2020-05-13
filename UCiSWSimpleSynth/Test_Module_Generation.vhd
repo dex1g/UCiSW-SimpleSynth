@@ -85,12 +85,12 @@ BEGIN
 		wait for 10 us;
 		file_open(file_RESULTS, "output_results.txt", write_mode);
 		
-		signal_loop: for i in 50000 downto 1 loop
-		-- wait until rising edge(clk) and do_rdy = 1
+		signal_loop: while now < 901 ms loop
+		   wait until DO_Rdy = '1';
+		   --report "current time = " & time'image(now);
 			write(v_OLINE, DO, right, 12);
+			write(v_OLINE, "," & time'image(now));
 			writeline(file_RESULTS, v_OLINE);
-			wait for 10 us; -- usunac
-			-- zapisanie biezacego czasu - funkcja now()
 		end loop signal_loop;
 		
 		file_close(file_RESULTS);
@@ -108,12 +108,12 @@ BEGIN
 			F0 <= '0';
 			wait for clk_period;
 			DI_Rdy <= '0';
-			wait for 50 ms;
+			wait for 200 ms;
 			DI_Rdy <= '1';
 			F0 <= '1';
 			wait for clk_period;
 			DI_Rdy <= '0';
-			wait for 50 ms;
+			wait for 100 ms;
 		end loop signal_loop;
 	
 		--signal_loop2: for i in 1 downto 0 loop
