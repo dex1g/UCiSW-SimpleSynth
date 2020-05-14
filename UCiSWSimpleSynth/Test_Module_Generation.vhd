@@ -14,11 +14,11 @@ ARCHITECTURE behavioral OF Module_Generation_Module_Generation_sch_tb IS
     PORT( DI	:	IN	STD_LOGIC_VECTOR (7 DOWNTO 0); 
           DI_Rdy	:	IN	STD_LOGIC; 
           F0	:	IN	STD_LOGIC; 
-          DO_Rdy	:	OUT	STD_LOGIC; 
           Clk	:	IN	STD_LOGIC; 
           Reset	:	IN	STD_LOGIC;
           Att_Val	:	IN	STD_LOGIC_VECTOR (17 DOWNTO 0); 
           Rel_Val	:	IN	STD_LOGIC_VECTOR (17 DOWNTO 0); 
+          DO_Rdy	:	OUT	STD_LOGIC; 
           Cmd	:	OUT	STD_LOGIC_VECTOR (3 DOWNTO 0); 
           Addr	:	OUT	STD_LOGIC_VECTOR (3 DOWNTO 0); 
           DO	:	OUT	STD_LOGIC_VECTOR (11 DOWNTO 0));
@@ -30,18 +30,19 @@ ARCHITECTURE behavioral OF Module_Generation_Module_Generation_sch_tb IS
    SIGNAL DI	:	STD_LOGIC_VECTOR (7 DOWNTO 0) := (others => '0');
    SIGNAL DI_Rdy	:	STD_LOGIC := '0';
    SIGNAL F0	:	STD_LOGIC := '0';
-   SIGNAL DO_Rdy	:	STD_LOGIC := '0';
    SIGNAL Clk	:	STD_LOGIC := '0';
    SIGNAL Reset	:	STD_LOGIC := '0';
    SIGNAL Att_Val	:	STD_LOGIC_VECTOR (17 DOWNTO 0) := "00" & X"4C4B"; -- daje ok. 100ms
    SIGNAL Rel_Val	:	STD_LOGIC_VECTOR (17 DOWNTO 0) := "00" & X"9896";
 	
 	-- outputs
+   SIGNAL DO_Rdy	:	STD_LOGIC := '0';
    SIGNAL Cmd	:	STD_LOGIC_VECTOR (3 DOWNTO 0) := (others => '0');
    SIGNAL Addr	:	STD_LOGIC_VECTOR (3 DOWNTO 0) := (others => '0');
    SIGNAL DO	:	STD_LOGIC_VECTOR (11 DOWNTO 0) := (others => '0');
 	
    file file_RESULTS : text;
+   file file_INPUT   : text;
 	
 	SIGNAL seq : VECTOR_VECTOR( 3 DOWNTO 0) := (
 		--X"32", -- B - None
@@ -85,7 +86,7 @@ BEGIN
 		wait for 10 us;
 		file_open(file_RESULTS, "output_results.txt", write_mode);
 		
-		signal_loop: while now < 901 ms loop
+		signal_loop: while now < 7010 ms loop
 		   wait until DO_Rdy = '1';
 		   --report "current time = " & time'image(now);
 			write(v_OLINE, DO, right, 12);
@@ -99,42 +100,65 @@ BEGIN
  
 
    -- Stimulus process
-   stim_proc : process
-   begin
 	
-		signal_loop: for i in 3 downto 0 loop
-			DI <= seq(i);
-			DI_Rdy <= '1';
-			F0 <= '0';
-			wait for clk_period;
-			DI_Rdy <= '0';
-			wait for 200 ms;
-			DI_Rdy <= '1';
-			F0 <= '1';
-			wait for clk_period;
-			DI_Rdy <= '0';
-			wait for 100 ms;
-		end loop signal_loop;
-	
-		--signal_loop2: for i in 1 downto 0 loop
-		--	DI <= seq(i);
-		--	DI_Rdy <= '1';
-		--	F0 <= '0';
-		--	wait for clk_period;
-		--	DI_Rdy <= '0';
-		--	wait for 50 ms;
-		--end loop signal_loop2;
-	
-		--signal_loop3: for i in 1 downto 0 loop
-		--	DI <= seq(i);
-		--	DI_Rdy <= '1';
-		--	F0 <= '1';
-		--	wait for clk_period;
-		--	DI_Rdy <= '0';
-		--	wait for 50 ms;
-		--nd loop signal_loop3;
+	read_proc : process
+	   variable v_ILINE    : line;
+		variable v_keycode  : STD_LOGIC_VECTOR(7 downto 0);
+		variable v_time     : time;
+		variable v_released : STD_LOGIC;
+		variable v_SPACE    : character;
+	begin
+		wait for 10 us;
+		file_open(file_INPUT, "levels.txt", read_mode);
+		report "otworzon";
 		
-	wait;
-   end process;
+		while not endfile(file_INPUT) loop
+			readline(file_INPUT, v_ILINE);
+			read(v_ILINE, v_keycode);
+			report "keycode: " & integer'image(to_integer(unsigned(v_keycode)));
+			--read(v_ILINE, v_SPACE);
+			read(v_ILINE, v_time);
+			report "keycode: " & time'image(v_time);
+			--read(v_ILINE, v_SPACE);
+			read(v_ILINE, v_released);
+			if v_released = '1' then
+				report "puszczon";
+			elsif v_released = '0' then
+				report "wciskan";
+			end if;
+			
+			DI <= v_keycode;
+			F0 <= v_released;
+			wait for v_time - now;
+			DI_Rdy <= '1';
+			wait for clk_period;
+			DI_Rdy <= '0';
+		end loop;
+		
+		file_close(file_INPUT);
+		wait;
+	end process read_proc;
+	
+	
+	
+   --stim_proc : process
+   --begin
+	
+		--signal_loop: for i in 3 downto 0 loop
+			--DI <= seq(i);
+			--DI_Rdy <= '1';
+			--F0 <= '0';
+			--wait for clk_period;
+			--DI_Rdy <= '0';
+			--wait for 200 ms;
+			--DI_Rdy <= '1';
+			--F0 <= '1';
+			--wait for clk_period;
+			--DI_Rdy <= '0';
+			--wait for 100 ms;
+		--end loop signal_loop;
+		
+	--wait;
+   --end process;
 
 END;
