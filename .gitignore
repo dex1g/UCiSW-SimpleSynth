@@ -223,3 +223,5 @@ output_results.txt
 UCiSWSimpleSynth/fuseRelaunch.cmd
 scripts/signal.wav
 UCiSWSimpleSynth/fuse.xmsgs
+scripts/levels.txt
+levels.txt
