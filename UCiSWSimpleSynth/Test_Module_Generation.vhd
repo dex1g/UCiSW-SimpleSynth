@@ -86,9 +86,8 @@ BEGIN
 		wait for 10 us;
 		file_open(file_RESULTS, "output_results.txt", write_mode);
 		
-		signal_loop: while now < 7010 ms loop
+		signal_loop: while now < 7505 ms loop
 		   wait until DO_Rdy = '1';
-		   --report "current time = " & time'image(now);
 			write(v_OLINE, DO, right, 12);
 			write(v_OLINE, "," & time'image(now));
 			writeline(file_RESULTS, v_OLINE);
@@ -99,7 +98,7 @@ BEGIN
 	end process;
  
 
-   -- Stimulus process
+   -- Stimulus processes
 	
 	read_proc : process
 	   variable v_ILINE    : line;
@@ -116,10 +115,8 @@ BEGIN
 			readline(file_INPUT, v_ILINE);
 			read(v_ILINE, v_keycode);
 			report "keycode: " & integer'image(to_integer(unsigned(v_keycode)));
-			--read(v_ILINE, v_SPACE);
 			read(v_ILINE, v_time);
 			report "keycode: " & time'image(v_time);
-			--read(v_ILINE, v_SPACE);
 			read(v_ILINE, v_released);
 			if v_released = '1' then
 				report "puszczon";
