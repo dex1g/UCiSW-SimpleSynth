@@ -12,7 +12,7 @@ NET "Clk_50MHz" LOC = "C9" | IOSTANDARD = LVTTL | PERIOD = 20.0ns HIGH 50%;
 #
 #NET "btn_north" LOC = "V4"  | IOSTANDARD = LVTTL | PULLDOWN;
 #NET "btn_east"  LOC = "H13" | IOSTANDARD = LVTTL | PULLDOWN;
-#NET "btn_south" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
+NET "btn_south" LOC = "K17" | IOSTANDARD = LVTTL | PULLDOWN;
 #NET "btn_west"  LOC = "D18" | IOSTANDARD = LVTTL | PULLDOWN;
 
 #

@@ -12,7 +12,6 @@ end Multiplier;
 architecture Behavioral of Multiplier is
 
    signal result: UNSIGNED(12 downto 0) := (others => '0');
-	signal factor: UNSIGNED(7 downto 0) := (others => '0');
 
 begin
 

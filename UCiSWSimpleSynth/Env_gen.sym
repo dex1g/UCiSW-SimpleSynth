@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="Env_gen">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2020-5-12T20:6:43</timestamp>
+    <timestamp>2020-5-23T17:23:25</timestamp>
     <pin polarity="Input" x="0" y="-224" name="Key_Pressed" />
     <pin polarity="Input" x="0" y="32" name="Reset" />
     <pin polarity="Input" x="0" y="-32" name="Clk" />
-    <pin polarity="Input" x="0" y="96" name="Att_Val(17:0)" />
-    <pin polarity="Input" x="0" y="160" name="Rel_Val(17:0)" />
+    <pin polarity="Input" x="0" y="96" name="Att_Val(19:0)" />
+    <pin polarity="Input" x="0" y="160" name="Rel_Val(19:0)" />
     <pin polarity="Output" x="384" y="-224" name="Play" />
     <pin polarity="Output" x="384" y="-128" name="Env_On" />
     <pin polarity="Output" x="384" y="-32" name="Factor(7:0)" />
@@ -15,8 +15,8 @@
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-224" type="pin Key_Pressed" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="32" type="pin Reset" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-32" type="pin Clk" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="96" type="pin Att_Val(17:0)" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="160" type="pin Rel_Val(17:0)" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="96" type="pin Att_Val(19:0)" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="160" type="pin Rel_Val(19:0)" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="312" y="-224" type="pin Play" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="312" y="-128" type="pin Env_On" />
         <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="312" y="-32" type="pin Factor(7:0)" />

@@ -4,9 +4,9 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity Env_gen is
     Port ( Key_Pressed : in  STD_LOGIC;
-           Att_Val : in  STD_LOGIC_VECTOR (17 downto 0);
-           Rel_Val : in  STD_LOGIC_VECTOR (17 downto 0);
-			  Reset : in STD_LOGIC;
+           Att_Val : in  STD_LOGIC_VECTOR (19 downto 0);
+           Rel_Val : in  STD_LOGIC_VECTOR (19 downto 0);
+           Reset : in STD_LOGIC;
            Clk : in  STD_LOGIC;
            Factor : out  STD_LOGIC_VECTOR (7 downto 0);
            Play : out  STD_LOGIC;
@@ -19,12 +19,11 @@ architecture Behavioral of Env_gen is
    signal state : state_type := Silence;
    signal next_state : state_type := Silence;
 	
-	--signal count : UNSIGNED(17 downto 0) := "10" & X"FAF0";
-	signal count : UNSIGNED(17 downto 0) := (others => '0');
+	signal count : UNSIGNED(19 downto 0) := (others => '0');
 	signal output : UNSIGNED(7 downto 0) := (others => '0');
 	
 	constant OUTPUT_MAX : UNSIGNED(7 downto 0) := X"7F";
-	constant COUNT_ZERO : UNSIGNED(17 downto 0) := (others => '0');
+	constant COUNT_ZERO : UNSIGNED(19 downto 0) := (others => '0');
 
 begin
 	
@@ -122,4 +121,3 @@ begin
 					 'X' when others;
 
 end Behavioral;
-

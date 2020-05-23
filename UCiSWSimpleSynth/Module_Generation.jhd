@@ -7,3 +7,5 @@ MODULE Module_Generation
 		INSTANCE XLXI_8
 	SUBMODULE Multiplier
 		INSTANCE XLXI_9
+	SUBMODULE Env_control
+		INSTANCE XLXI_10

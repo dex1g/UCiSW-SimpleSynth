@@ -86,9 +86,10 @@ BEGIN
 		wait for 10 us;
 		file_open(file_RESULTS, "output_results.txt", write_mode);
 		
-		signal_loop: while now < 7505 ms loop
+--		signal_loop: while now < 7505 ms loop
+		signal_loop: while now < 1201 ms loop
 		   wait until DO_Rdy = '1';
-			write(v_OLINE, DO, right, 12);
+			write(v_OLINE, DO);
 			write(v_OLINE, "," & time'image(now));
 			writeline(file_RESULTS, v_OLINE);
 		end loop signal_loop;
@@ -100,62 +101,62 @@ BEGIN
 
    -- Stimulus processes
 	
-	read_proc : process
-	   variable v_ILINE    : line;
-		variable v_keycode  : STD_LOGIC_VECTOR(7 downto 0);
-		variable v_time     : time;
-		variable v_released : STD_LOGIC;
-		variable v_SPACE    : character;
-	begin
-		wait for 10 us;
-		file_open(file_INPUT, "levels.txt", read_mode);
-		report "otworzon";
-		
-		while not endfile(file_INPUT) loop
-			readline(file_INPUT, v_ILINE);
-			read(v_ILINE, v_keycode);
-			report "keycode: " & integer'image(to_integer(unsigned(v_keycode)));
-			read(v_ILINE, v_time);
-			report "keycode: " & time'image(v_time);
-			read(v_ILINE, v_released);
-			if v_released = '1' then
-				report "puszczon";
-			elsif v_released = '0' then
-				report "wciskan";
-			end if;
-			
-			DI <= v_keycode;
-			F0 <= v_released;
-			wait for v_time - now;
+--	read_proc : process
+--	   variable v_ILINE    : line;
+--		variable v_keycode  : STD_LOGIC_VECTOR(7 downto 0);
+--		variable v_time     : time;
+--		variable v_released : STD_LOGIC;
+--		variable v_SPACE    : character;
+--	begin
+--		wait for 10 us;
+--		file_open(file_INPUT, "levels.txt", read_mode);
+--		report "otworzon";
+--		
+--		while not endfile(file_INPUT) loop
+--			readline(file_INPUT, v_ILINE);
+--			read(v_ILINE, v_keycode);
+--			report "keycode: " & integer'image(to_integer(unsigned(v_keycode)));
+--			read(v_ILINE, v_time);
+--			report "keycode: " & time'image(v_time);
+--			read(v_ILINE, v_released);
+--			if v_released = '1' then
+--				report "puszczon";
+--			elsif v_released = '0' then
+--				report "wciskan";
+--			end if;
+--			
+--			DI <= v_keycode;
+--			F0 <= v_released;
+--			wait for v_time - now;
+--			DI_Rdy <= '1';
+--			wait for clk_period;
+--			DI_Rdy <= '0';
+--		end loop;
+--		
+--		file_close(file_INPUT);
+--		wait;
+--	end process read_proc;
+	
+	
+	
+   stim_proc : process
+   begin
+	
+		signal_loop: for i in 3 downto 0 loop
+			DI <= seq(i);
 			DI_Rdy <= '1';
+			F0 <= '0';
 			wait for clk_period;
 			DI_Rdy <= '0';
-		end loop;
+			wait for 200 ms;
+			DI_Rdy <= '1';
+			F0 <= '1';
+			wait for clk_period;
+			DI_Rdy <= '0';
+			wait for 100 ms;
+		end loop signal_loop;
 		
-		file_close(file_INPUT);
-		wait;
-	end process read_proc;
-	
-	
-	
-   --stim_proc : process
-   --begin
-	
-		--signal_loop: for i in 3 downto 0 loop
-			--DI <= seq(i);
-			--DI_Rdy <= '1';
-			--F0 <= '0';
-			--wait for clk_period;
-			--DI_Rdy <= '0';
-			--wait for 200 ms;
-			--DI_Rdy <= '1';
-			--F0 <= '1';
-			--wait for clk_period;
-			--DI_Rdy <= '0';
-			--wait for 100 ms;
-		--end loop signal_loop;
-		
-	--wait;
-   --end process;
+	wait;
+   end process;
 
 END;
