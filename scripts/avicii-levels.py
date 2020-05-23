@@ -13,9 +13,9 @@ F1 = 1  # release the key
 # output looks as follow:
 # [[hexkeycode, start_timestamp, F0], [hexkeycode, end_timestamp, F0]]
 # where:
-# hexkeycode - code of key which was pressed/released
+# hexkeycode - hex value of a PS/2 scancode of the key which was pressed/released
 # timestamp - time when it happened in ns
-# F0 - 1 if releasing key 0 otherwise
+# F0 - 1 if key is being released, 0 otherwise (PS/2 standard)
 # All None records are just for easier time calculation and will not be included
 
 output = [
@@ -53,9 +53,9 @@ output = [
     [[Gis1, None, F0], [Gis1, None, F1]],
 ]
 
-time = 1e6  # start time in nano seconds
+time = 1e6  # start time in nano seconds (equals 1ms)
 
-step = 1 / 256  # from fl studio
+step = 1 / 256  # 1/256 of a minute
 
 for record in output:
     if record[0][0]:
