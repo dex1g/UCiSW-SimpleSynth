@@ -58,7 +58,7 @@ begin
 		elsif state = Release then
 			if Key_Pressed = '1' then
 				next_state <= Attack;
-			elsif output = X"00" then
+			elsif output = 0 then
 				next_state <= Silence;
 			end if;
 		end if;
@@ -81,7 +81,7 @@ begin
 				end if;
 			elsif state = Sustain and next_state = Release then
 				count <= unsigned(Rel_Val);
-			elsif state = Release and output > X"00" then
+			elsif state = Release and output > 0 then
 				if next_state = Attack then
 					count <= UNSIGNED(Att_Val);
 				elsif count = COUNT_ZERO then
@@ -102,7 +102,7 @@ begin
 				output <= output + 1;
 			elsif state = Sustain and next_state = Release then
 				output <= OUTPUT_MAX;
-			elsif state = Release and output > X"00" and count = COUNT_ZERO then
+			elsif state = Release and output > 0 and count = COUNT_ZERO then
 				output <= output - 1;
 			end if;
 		end if;

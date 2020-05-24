@@ -13,30 +13,32 @@ ARCHITECTURE behavior OF TestFreq_calc IS
     -- Component Declaration for the Unit Under Test (UUT)
  
     COMPONENT Freq_calc
-    PORT( DO : IN  std_logic_vector(7 downto 0);
-          F0 : IN  std_logic;
-          DO_Rdy : IN  std_logic;
-			 Clk : in std_logic;
-			 Reset : in std_logic;
-          Freq : OUT  std_logic_vector(11 downto 0));
+    PORT( DO          : IN  std_logic_vector(7 downto 0);
+          F0          : IN  std_logic;
+          DO_Rdy      : IN  std_logic;
+		  Clk         : IN  std_logic;
+		  Reset       : IN  std_logic;
+          Freq        : OUT std_logic_vector(11 downto 0);
+          Key_Pressed : OUT std_logic);
     END COMPONENT;
 	 
-   type VECTOR_VECTOR is array (NATURAL range <>) of STD_LOGIC_VECTOR(7 downto 0);
+    type VECTOR_VECTOR is array (NATURAL range <>) of STD_LOGIC_VECTOR(7 downto 0);
 
-   --Inputs
-   signal DO : std_logic_vector(7 downto 0) := (others => '0');
-   signal F0 : std_logic := '0';
-   signal DO_Rdy : std_logic := '0';
-	signal Clk : std_logic := '0';
-	signal Reset : std_logic := '0';
+    --Inputs
+    signal DO : std_logic_vector(7 downto 0) := (others => '0');
+    signal F0 : std_logic := '0';
+    signal DO_Rdy : std_logic := '0';
+    signal Clk : std_logic := '0';
+    signal Reset : std_logic := '0';
 
  	--Outputs
-   signal Freq : std_logic_vector(11 downto 0);
+    signal Freq : std_logic_vector(11 downto 0);
+    signal Key_Pressed : std_logic;
 	
-	signal seq : VECTOR_VECTOR( 4 downto 0) := (
-		X"32", -- B
+    signal seq : VECTOR_VECTOR( 4 downto 0) := (
 		X"15", -- Q
 		X"24", -- E
+		X"32", -- B
 		X"45", -- 0
 		X"35"  -- Y
 	);
@@ -51,9 +53,10 @@ BEGIN
           DO => DO,
           F0 => F0,
           Clk => Clk,
-			 Reset => Reset,
+		  Reset => Reset,
           DO_Rdy => DO_Rdy,
-          Freq => Freq
+          Freq => Freq,
+		  Key_Pressed => Key_Pressed
         );
 
    -- Clock process definitions
@@ -69,6 +72,7 @@ BEGIN
    -- Stimulus process
    stim_proc : process
    begin
+		wait for 10ns;
 	
 		signal_loop: for i in 4 downto 0 loop
 			DO <= seq(i);

@@ -29,8 +29,6 @@ ARCHITECTURE behavior OF TestMultiplier IS
 
  	--Outputs
    signal DO : std_logic_vector(11 downto 0);
-   -- No clocks detected in port list. Replace <clock> below with 
-   -- appropriate port name 
 	
    signal Clk : std_logic := '0';
  
@@ -84,6 +82,7 @@ BEGIN
       wait for Clk_period*4;
 		Ratio <= X"10";
       wait for Clk_period*4;
+		Ratio <= X"00";
 		Enable <= '0';
 		
       wait;

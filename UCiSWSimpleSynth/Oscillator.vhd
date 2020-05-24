@@ -32,8 +32,8 @@ begin
 	
 	process(Clk, count)
 	begin
-		if rising_edge(Clk) and Enabled = '1' and Freq /= X"000" then
-			if STD_LOGIC_VECTOR(count) >= Freq then
+		if rising_edge(Clk) then
+			if STD_LOGIC_VECTOR(count) >= Freq and Enabled = '1' and Freq /= X"000" then
 				Start <= '1';
 			else
 				Start <= '0';

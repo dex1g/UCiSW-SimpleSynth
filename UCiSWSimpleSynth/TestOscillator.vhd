@@ -78,7 +78,7 @@ BEGIN
 	
 		signal_loop: for i in 5 downto 0 loop
 			Freq <= seq(i);
-			wait for clk_period * 100000;
+			wait for 1ms;
 		end loop signal_loop;
 		
 	wait;

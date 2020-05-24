@@ -6,9 +6,9 @@ USE ieee.std_logic_textio.all;
 LIBRARY UNISIM;
 USE UNISIM.Vcomponents.ALL;
 
-ENTITY Module_Generation_Module_Generation_sch_tb IS
-END Module_Generation_Module_Generation_sch_tb;
-ARCHITECTURE behavioral OF Module_Generation_Module_Generation_sch_tb IS 
+ENTITY TestModule_Generation IS
+END TestModule_Generation;
+ARCHITECTURE behavioral OF TestModule_Generation IS 
 
    COMPONENT Module_Generation
     PORT( DI	:	IN	STD_LOGIC_VECTOR (7 DOWNTO 0); 
@@ -16,8 +16,6 @@ ARCHITECTURE behavioral OF Module_Generation_Module_Generation_sch_tb IS
           F0	:	IN	STD_LOGIC; 
           Clk	:	IN	STD_LOGIC; 
           Reset	:	IN	STD_LOGIC;
-          Att_Val	:	IN	STD_LOGIC_VECTOR (17 DOWNTO 0); 
-          Rel_Val	:	IN	STD_LOGIC_VECTOR (17 DOWNTO 0); 
           DO_Rdy	:	OUT	STD_LOGIC; 
           Cmd	:	OUT	STD_LOGIC_VECTOR (3 DOWNTO 0); 
           Addr	:	OUT	STD_LOGIC_VECTOR (3 DOWNTO 0); 
@@ -32,8 +30,6 @@ ARCHITECTURE behavioral OF Module_Generation_Module_Generation_sch_tb IS
    SIGNAL F0	:	STD_LOGIC := '0';
    SIGNAL Clk	:	STD_LOGIC := '0';
    SIGNAL Reset	:	STD_LOGIC := '0';
-   SIGNAL Att_Val	:	STD_LOGIC_VECTOR (17 DOWNTO 0) := "00" & X"4C4B"; -- daje ok. 100ms
-   SIGNAL Rel_Val	:	STD_LOGIC_VECTOR (17 DOWNTO 0) := "00" & X"9896";
 	
 	-- outputs
    SIGNAL DO_Rdy	:	STD_LOGIC := '0';
@@ -45,7 +41,6 @@ ARCHITECTURE behavioral OF Module_Generation_Module_Generation_sch_tb IS
    file file_INPUT   : text;
 	
 	SIGNAL seq : VECTOR_VECTOR( 3 DOWNTO 0) := (
-		--X"32", -- B - None
 		X"15", -- Q - C1
 		X"24", -- E - E1
 		X"45", -- 0 - D#2
@@ -64,8 +59,6 @@ BEGIN
 		DO_Rdy => DO_Rdy, 
 		Clk => Clk, 
 		Reset => Reset, 
-		Att_Val => Att_Val, 
-		Rel_Val => Rel_Val, 
 		Cmd => Cmd, 
 		Addr => Addr, 
 		DO => DO
@@ -141,22 +134,29 @@ BEGIN
 	
    stim_proc : process
    begin
-	
-		signal_loop: for i in 3 downto 0 loop
-			DI <= seq(i);
+		wait for 20 us;
+		
+			DI <= seq(3);
 			DI_Rdy <= '1';
 			F0 <= '0';
 			wait for clk_period;
 			DI_Rdy <= '0';
-			wait for 200 ms;
-			DI_Rdy <= '1';
-			F0 <= '1';
-			wait for clk_period;
-			DI_Rdy <= '0';
-			wait for 100 ms;
-		end loop signal_loop;
+
+--		signal_loop: for i in 3 downto 0 loop
+--			DI <= seq(i);
+--			DI_Rdy <= '1';
+--			F0 <= '0';
+--			wait for clk_period;
+--			DI_Rdy <= '0';
+--			wait for 200 ms;
+--			DI_Rdy <= '1';
+--			F0 <= '1';
+--			wait for clk_period;
+--			DI_Rdy <= '0';
+--			wait for 100 ms;
+--		end loop signal_loop;
 		
-	wait;
+		wait;
    end process;
 
 END;

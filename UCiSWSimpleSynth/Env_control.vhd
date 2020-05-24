@@ -13,13 +13,11 @@ end Env_control;
 
 architecture Behavioral of Env_control is
 
-	signal att_len : UNSIGNED(19 downto 0) := X"17D7C";
-	signal rel_len : UNSIGNED(19 downto 0) := X"17D7C";
+	signal att_len : UNSIGNED(19 downto 0) := X"17D7C"; --  125 ms
+	signal rel_len : UNSIGNED(19 downto 0) := X"2FAF8"; --  250 ms
 	
-	constant LSTEP : UNSIGNED(19 downto 0) := X"04C4C";
-	constant SECOND : UNSIGNED(19 downto 0) := X"2FAF8";
-	constant BSTEP : UNSIGNED(19 downto 0) := X"17D7C";
-	constant LIMIT : UNSIGNED(19 downto 0) := X"EE6D8";
+	constant STEP  : UNSIGNED(19 downto 0) := X"17D7C"; --  125 ms
+	constant LIMIT : UNSIGNED(19 downto 0) := X"EE6D8"; -- 1250 ms
 
 begin
 
@@ -27,29 +25,13 @@ begin
 	begin
 		if rising_edge(Clk) and DO_Rdy = '1' and F0 = '0' then
 			if DO = X"05" and att_len < LIMIT then
-				if att_len < SECOND then
-					att_len <= att_len + LSTEP;
-				else
-					att_len <= att_len + BSTEP;
-				end if;
+				att_len <= att_len + STEP;
 			elsif DO = X"06" and att_len > 0 then
-				if att_len > SECOND then
-					att_len <= att_len - BSTEP;
-				else
-					att_len <= att_len - LSTEP;
-				end if;
+				att_len <= att_len - STEP;
 			elsif DO = X"04" and rel_len < LIMIT then
-				if rel_len < SECOND then
-					rel_len <= rel_len + LSTEP;
-				else
-					rel_len <= rel_len + BSTEP;
-				end if;
+				rel_len <= rel_len + STEP;
 			elsif DO = X"0C" and rel_len > 0 then
-				if rel_len > SECOND then
-					rel_len <= rel_len - BSTEP;
-				else
-					rel_len <= rel_len - LSTEP;
-				end if;
+				rel_len <= rel_len - STEP;
 			end if;
 		end if;
 	end process main_proc;
