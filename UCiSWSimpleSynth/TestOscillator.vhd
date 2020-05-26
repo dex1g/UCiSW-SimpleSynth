@@ -47,7 +47,7 @@ ARCHITECTURE behavior OF TestOscillator IS
 	);
 
    -- Clock period definitions
-   constant Clk_period : time := 10 ns;
+   constant Clk_period : time := 20 ns;
  
 BEGIN
  

@@ -11,31 +11,31 @@ END TestModule_Generation;
 ARCHITECTURE behavioral OF TestModule_Generation IS 
 
    COMPONENT Module_Generation
-    PORT( DI	:	IN	STD_LOGIC_VECTOR (7 DOWNTO 0); 
-          DI_Rdy	:	IN	STD_LOGIC; 
-          F0	:	IN	STD_LOGIC; 
-          Clk	:	IN	STD_LOGIC; 
-          Reset	:	IN	STD_LOGIC;
-          DO_Rdy	:	OUT	STD_LOGIC; 
-          Cmd	:	OUT	STD_LOGIC_VECTOR (3 DOWNTO 0); 
-          Addr	:	OUT	STD_LOGIC_VECTOR (3 DOWNTO 0); 
-          DO	:	OUT	STD_LOGIC_VECTOR (11 DOWNTO 0));
+    PORT( DI	   :	IN  STD_LOGIC_VECTOR (7 DOWNTO 0); 
+          DI_Rdy	:	IN  STD_LOGIC; 
+          F0	   :	IN  STD_LOGIC; 
+          Clk	   :	IN  STD_LOGIC; 
+          Reset	:	IN  STD_LOGIC;
+          DO_Rdy	:	OUT STD_LOGIC; 
+          Cmd	   :	OUT STD_LOGIC_VECTOR (3 DOWNTO 0); 
+          Addr	   :	OUT STD_LOGIC_VECTOR (3 DOWNTO 0); 
+          DO	   :	OUT STD_LOGIC_VECTOR (11 DOWNTO 0));
    END COMPONENT;
 	 
    type VECTOR_VECTOR is array (NATURAL range <>) of STD_LOGIC_VECTOR(7 downto 0);
 
 	-- inputs
-   SIGNAL DI	:	STD_LOGIC_VECTOR (7 DOWNTO 0) := (others => '0');
-   SIGNAL DI_Rdy	:	STD_LOGIC := '0';
-   SIGNAL F0	:	STD_LOGIC := '0';
-   SIGNAL Clk	:	STD_LOGIC := '0';
+   SIGNAL DI      :	STD_LOGIC_VECTOR (7 DOWNTO 0) := (others => '0');
+   SIGNAL DI_Rdy  :	STD_LOGIC := '0';
+   SIGNAL F0	   :	STD_LOGIC := '0';
+   SIGNAL Clk	   :	STD_LOGIC := '0';
    SIGNAL Reset	:	STD_LOGIC := '0';
 	
 	-- outputs
    SIGNAL DO_Rdy	:	STD_LOGIC := '0';
-   SIGNAL Cmd	:	STD_LOGIC_VECTOR (3 DOWNTO 0) := (others => '0');
-   SIGNAL Addr	:	STD_LOGIC_VECTOR (3 DOWNTO 0) := (others => '0');
-   SIGNAL DO	:	STD_LOGIC_VECTOR (11 DOWNTO 0) := (others => '0');
+   SIGNAL Cmd	   :	STD_LOGIC_VECTOR (3 DOWNTO 0) := (others => '0');
+   SIGNAL Addr	   :	STD_LOGIC_VECTOR (3 DOWNTO 0) := (others => '0');
+   SIGNAL DO	   :	STD_LOGIC_VECTOR (11 DOWNTO 0) := (others => '0');
 	
    file file_RESULTS : text;
    file file_INPUT   : text;
@@ -48,7 +48,7 @@ ARCHITECTURE behavioral OF TestModule_Generation IS
 	);
 	
    -- Clock period definition
-   constant Clk_period : time := 10 ns;
+   constant Clk_period : time := 20 ns;
 
 BEGIN
 

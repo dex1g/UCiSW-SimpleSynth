@@ -32,7 +32,7 @@ ARCHITECTURE behavior OF TestMultiplier IS
 	
    signal Clk : std_logic := '0';
  
-   constant Clk_period : time := 10 ns;
+   constant Clk_period : time := 20 ns;
  
 BEGIN
  
