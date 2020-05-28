@@ -14,15 +14,15 @@ end Oscillator;
 
 architecture Behavioral of Oscillator is
 
-   signal count : UNSIGNED(11 downto 0) := X"000";
-   signal sample : UNSIGNED(4 downto 0) := X"0"&'0';
+   signal count  : UNSIGNED(11 downto 0) := X"000";
+   signal sample : UNSIGNED( 4 downto 0) := X"0" & '0';
 	
 begin
 
    process(Clk, Freq)
    begin
       if rising_edge(Clk) and Enabled = '1' and Freq /= X"000" then
-         if STD_LOGIC_VECTOR(count) >= Freq then
+         if count >= UNSIGNED(Freq) then
             count <= X"000";
 			else
 				count <= count + 1;
@@ -33,7 +33,7 @@ begin
 	process(Clk, count)
 	begin
 		if rising_edge(Clk) then
-			if STD_LOGIC_VECTOR(count) >= Freq and Enabled = '1' and Freq /= X"000" then
+			if count >= UNSIGNED(Freq) and Enabled = '1' and Freq /= X"000" then
 				Start <= '1';
 			else
 				Start <= '0';
@@ -44,13 +44,13 @@ begin
 	process(Clk, count)
 	begin
 		if rising_edge(Clk) and Enabled = '1' and Freq /= X"000" then
-			if STD_LOGIC_VECTOR(count) >= Freq then
+			if count >= UNSIGNED(Freq) then
 				sample <= sample + 1;
 			end if;
 		end if;
    end process;	
 
-   Data <= STD_LOGIC_VECTOR(sample)&"0000000";
+   Data <= STD_LOGIC_VECTOR(sample) & "0000000";
    Cmd <= "0011";
    Addr <= "1111";
 

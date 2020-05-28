@@ -14,9 +14,10 @@ end Freq_calc;
 architecture Behavioral of Freq_calc is
 
    type state_type is (None, C1, Cis1, D1, Dis1, E1, F1, Fis1, G1, Gis1, A1, Ais1, B1, C2, Cis2, D2, Dis2, E2);
-   signal state : state_type := None;
+   signal state      : state_type := None;
    signal next_state : state_type := None;
-   signal key_state : STD_LOGIC := '0';
+	
+   signal key_state  : STD_LOGIC  := '0';
 
 begin
 	
@@ -79,27 +80,27 @@ begin
 	
 	keystate_proc : process( Clk, DO_Rdy, F0, DO, state ) 
 	begin
-		if rising_edge(Clk) then
-			if DO_Rdy = '1' and F0 = '0' then
+		if rising_edge(Clk) and DO_Rdy = '1' then
+			if F0 = '0' then
 				key_state <= '1';
-			elsif DO_Rdy = '1' and F0 = '1' then
-				if (state = C1 and DO = X"15") 
+			elsif F0 = '1' then
+				if (state = C1   and DO = X"15") 
 				or (state = Cis1 and DO = X"1E")
-				or (state = D1 and DO = X"1D")
+				or (state = D1   and DO = X"1D")
 				or (state = Dis1 and DO = X"26")
-				or (state = E1 and DO = X"24")
-				or (state = F1 and DO = X"2D")
+				or (state = E1   and DO = X"24")
+				or (state = F1   and DO = X"2D")
 				or (state = Fis1 and DO = X"2E")
-				or (state = G1 and DO = X"2C")
+				or (state = G1   and DO = X"2C")
 				or (state = Gis1 and DO = X"36")
-				or (state = A1 and DO = X"35")
+				or (state = A1   and DO = X"35")
 				or (state = Ais1 and DO = X"3D")
-				or (state = B1 and DO = X"3C")
-				or (state = C2 and DO = X"43")
+				or (state = B1   and DO = X"3C")
+				or (state = C2   and DO = X"43")
 				or (state = Cis2 and DO = X"46")
-				or (state = D2 and DO = X"44")
+				or (state = D2   and DO = X"44")
 				or (state = Dis2 and DO = X"45")
-				or (state = E2 and DO = X"4D") then
+				or (state = E2   and DO = X"4D") then
 					key_state <= '0';
 				end if;
 			end if;

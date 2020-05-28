@@ -219,8 +219,9 @@ cython_debug/
 
 UCiSWSimpleSynth/sch2HdlBatchFile
 *.wdb
-output_results.txt
+scripts/levels.txt
+scripts/output_results.txt
+UCiSWSimpleSynth/levels.txt
+UCiSWSimpleSynth/output_results.txt
 UCiSWSimpleSynth/fuseRelaunch.cmd
 UCiSWSimpleSynth/fuse.xmsgs
-scripts/levels.txt
-levels.txt

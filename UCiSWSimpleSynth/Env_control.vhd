@@ -13,11 +13,11 @@ end Env_control;
 
 architecture Behavioral of Env_control is
 
-	signal att_len : UNSIGNED(19 downto 0) := X"17D7C"; --  125 ms
-	signal rel_len : UNSIGNED(19 downto 0) := X"2FAF8"; --  250 ms
+	signal att_len : UNSIGNED(19 downto 0) := X"0BEBE"; --  125 ms
+	signal rel_len : UNSIGNED(19 downto 0) := X"0BEBE"; --  125 ms
 	
-	constant STEP  : UNSIGNED(19 downto 0) := X"17D7C"; --  125 ms
-	constant LIMIT : UNSIGNED(19 downto 0) := X"EE6D8"; -- 1250 ms
+	constant STEP  : UNSIGNED(19 downto 0) := X"0BEBE"; --  125 ms
+	constant LIMIT : UNSIGNED(19 downto 0) := X"EE6D8"; -- 2500 ms
 
 begin
 

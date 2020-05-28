@@ -16,14 +16,13 @@ end Env_gen;
 architecture Behavioral of Env_gen is
 
    type state_type is (Silence, Attack, Sustain, Release);
-   signal state : state_type := Silence;
+   signal state      : state_type := Silence;
    signal next_state : state_type := Silence;
 	
-	signal count : UNSIGNED(19 downto 0) := (others => '0');
-	signal output : UNSIGNED(7 downto 0) := (others => '0');
+	signal count  : UNSIGNED(19 downto 0) := (others => '0');
+	signal output : UNSIGNED( 7 downto 0) := (others => '0');
 	
 	constant OUTPUT_MAX : UNSIGNED(7 downto 0) := X"7F";
-	constant COUNT_ZERO : UNSIGNED(19 downto 0) := (others => '0');
 
 begin
 	
@@ -73,7 +72,7 @@ begin
 				if next_state = Release then
 					count <= UNSIGNED(Rel_Val);
 				elsif output <= OUTPUT_MAX then
-					if count = COUNT_ZERO then
+					if count = 0 then
 						count <= UNSIGNED(Att_Val);
 					else
 						count <= count - 1;
@@ -84,7 +83,7 @@ begin
 			elsif state = Release and output > 0 then
 				if next_state = Attack then
 					count <= UNSIGNED(Att_Val);
-				elsif count = COUNT_ZERO then
+				elsif count = 0 then
 					count <= UNSIGNED(Rel_Val);
 				else
 					count <= count - 1;
@@ -98,11 +97,11 @@ begin
 		if rising_edge(Clk) then
 			if state = Silence and next_state = Attack then
 				output <= X"00";
-			elsif state = Attack and output <= OUTPUT_MAX and count = COUNT_ZERO then
+			elsif state = Attack and output <= OUTPUT_MAX and count = 0 then
 				output <= output + 1;
 			elsif state = Sustain and next_state = Release then
 				output <= OUTPUT_MAX;
-			elsif state = Release and output > 0 and count = COUNT_ZERO then
+			elsif state = Release and output > 0 and count = 0 then
 				output <= output - 1;
 			end if;
 		end if;

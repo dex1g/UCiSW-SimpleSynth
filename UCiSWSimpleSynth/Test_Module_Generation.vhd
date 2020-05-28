@@ -53,34 +53,35 @@ ARCHITECTURE behavioral OF TestModule_Generation IS
 BEGIN
 
    UUT: Module_Generation PORT MAP(
-		DI => DI, 
+		DI     => DI, 
 		DI_Rdy => DI_Rdy, 
-		F0 => F0, 
+		F0     => F0, 
 		DO_Rdy => DO_Rdy, 
-		Clk => Clk, 
-		Reset => Reset, 
-		Cmd => Cmd, 
-		Addr => Addr, 
-		DO => DO
+		Clk    => Clk, 
+		Reset  => Reset, 
+		Cmd    => Cmd, 
+		Addr   => Addr, 
+		DO     => DO
    );
 
    -- Clock process definitions
    Clk_process : process
    begin
 		Clk <= '0';
-		wait for Clk_period/2;
+		wait for Clk_period / 2;
 		Clk <= '1';
-		wait for Clk_period/2;
+		wait for Clk_period / 2;
    end process;
 	
+	-- Logging to file process
 	log_proc : process
 		variable v_OLINE : line;
 	begin
 		wait for 10 us;
 		file_open(file_RESULTS, "output_results.txt", write_mode);
 		
---		signal_loop: while now < 7505 ms loop
-		signal_loop: while now < 1201 ms loop
+		signal_loop: while now < 8001 ms loop
+--		signal_loop: while now < 1201 ms loop
 		   wait until DO_Rdy = '1';
 			write(v_OLINE, DO);
 			write(v_OLINE, "," & time'image(now));
@@ -90,57 +91,57 @@ BEGIN
 		file_close(file_RESULTS);
 		wait;
 	end process;
- 
+
 
    -- Stimulus processes
-	
---	read_proc : process
---	   variable v_ILINE    : line;
---		variable v_keycode  : STD_LOGIC_VECTOR(7 downto 0);
---		variable v_time     : time;
---		variable v_released : STD_LOGIC;
---		variable v_SPACE    : character;
---	begin
---		wait for 10 us;
---		file_open(file_INPUT, "levels.txt", read_mode);
---		report "otworzon";
---		
---		while not endfile(file_INPUT) loop
---			readline(file_INPUT, v_ILINE);
---			read(v_ILINE, v_keycode);
---			report "keycode: " & integer'image(to_integer(unsigned(v_keycode)));
---			read(v_ILINE, v_time);
---			report "keycode: " & time'image(v_time);
---			read(v_ILINE, v_released);
---			if v_released = '1' then
---				report "puszczon";
---			elsif v_released = '0' then
---				report "wciskan";
---			end if;
---			
---			DI <= v_keycode;
---			F0 <= v_released;
---			wait for v_time - now;
---			DI_Rdy <= '1';
---			wait for clk_period;
---			DI_Rdy <= '0';
---		end loop;
---		
---		file_close(file_INPUT);
---		wait;
---	end process read_proc;
-	
-	
-	
-   stim_proc : process
-   begin
-		wait for 20 us;
-		
-			DI <= seq(3);
+
+	read_proc : process
+	   variable v_ILINE    : line;
+		variable v_keycode  : STD_LOGIC_VECTOR(7 downto 0);
+		variable v_time     : time;
+		variable v_released : STD_LOGIC;
+		variable v_SPACE    : character;
+	begin
+		wait for 10 us;
+		file_open(file_INPUT, "levels.txt", read_mode);
+		report "file opened";
+
+		while not endfile(file_INPUT) loop
+			readline(file_INPUT, v_ILINE);
+			read(v_ILINE, v_keycode);
+			report "keycode: " & integer'image(to_integer(unsigned(v_keycode)));
+			read(v_ILINE, v_time);
+			report "timestamp: " & time'image(v_time);
+			read(v_ILINE, v_released);
+			if v_released = '1' then
+				report "released";
+			elsif v_released = '0' then
+				report "pressed";
+			end if;
+			
+			DI <= v_keycode;
+			F0 <= v_released;
+			wait for v_time - now;
 			DI_Rdy <= '1';
-			F0 <= '0';
 			wait for clk_period;
 			DI_Rdy <= '0';
+		end loop;
+		
+		file_close(file_INPUT);
+		wait;
+	end process read_proc;
+	
+	
+	
+--   stim_proc : process
+--   begin
+--		wait for 20 us;
+--		
+--			DI <= seq(3);
+--			DI_Rdy <= '1';
+--			F0 <= '0';
+--			wait for clk_period;
+--			DI_Rdy <= '0';
 
 --		signal_loop: for i in 3 downto 0 loop
 --			DI <= seq(i);
@@ -156,7 +157,7 @@ BEGIN
 --			wait for 100 ms;
 --		end loop signal_loop;
 		
-		wait;
-   end process;
+--		wait;
+--   end process;
 
 END;
